@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html style="width: 100%; height: 100%;">
+
+<head>
+  <title>Le epic map</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/jszip.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.0/xlsx.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <script src="excel.xlsx"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+</head>
+
+<body style="width: auto; height: 100%; margin-left: auto;">
+  <div class="sidenav">
+    <button id="myBtn">+</button>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div>
+          <label class="switch">
+            <input type="checkbox" onchange="change()" id="switch">
+            <span class="slider round"></span>
+          </label>
+          <br>
+          <input type="text" onkeyup="k(this)" id="UN"> Name<br>
+          <input type="text" id="UL">
+          <div class="dropdown">
+            <button id="dropd" class="dropbtn"> ↓ </button>
+            <div class="dropdown-content">
+              <button id="DEF">List</button><br>
+              <button id="SUM" onclick="sumTrue()">Sum</button><br>
+              <button id="AVE" onclick="aveTrue()">Average</button>
+            </div>
+            Link address
+            <div class="tooltip">?
+              <span class="tooltiptext">Data rules:<br>
+                1. A raw github file link. <br>
+                2. A .csv file.<br>
+                3. "" Shouldn't be used in the csv file.<br>
+                4. Empty values should be replaced by "0"
+              </span>
+            </div>
+          </div>
+          <p id="demo" style="color: #000000;"></p>
+        </div>
+      </div>
+    </div>
+    <p id="clear"> Add more values </p>
+    <br>
+    <button id="1" onclick="clear()">X</button>
+    <p id="clear"> Clear selected values </p>
+    <hr>
+    <p class="header"> Selected countries: </p>
+    <p id="CS" style="font-size:20px; border-bottom: dotted 1px;"></p>
+    <p class="header"> Total population: </p>
+    <p id="CP" type="number" style="font-size:20px; border-bottom: dotted 1px;"></p>
+    <p class="header"> Average GDP per capita: </p>
+    <p id="CB" type="number" style="font-size:20px; border-bottom: dotted 1px;"></p>
+    <p class="header"> Total area: </p>
+    <p id="CA" type="number" style="font-size:20px; border-bottom: dotted 1px;"></p>
+    <p class="header" id="data"></p>
+    <p id="CQ" type="number" style="font-size:20px; border-bottom: dotted 1px;"></p>
+  </div>
+  <div id="map">
+    <script src="mapbox-gl.js"></script>
+    <script src="main.js"></script>
+  </div>
+</body>
+
+</html>
+</script>
+<!-- Button on/off -->
+<script>
+  var checkSwitch = false;
+  document.getElementById("UN").disabled = true;
+  document.getElementById("UL").disabled = true;
+  document.getElementById("DEF").disabled = true;
+  document.getElementById("SUM").disabled = true;
+  document.getElementById("AVE").disabled = true;
+
+  function change() {
+    checkSwitch = document.getElementById("switch").checked;
+
+    if (checkSwitch == true) {
+      document.getElementById("UN").disabled = false;
+      document.getElementById("UL").disabled = false;
+      document.getElementById("DEF").disabled = false;
+      document.getElementById("SUM").disabled = false;
+      document.getElementById("AVE").disabled = false;
+
+    } else {
+      document.getElementById("UN").disabled = true;
+      document.getElementById("UL").disabled = true;
+      document.getElementById("DEF").disabled = true;
+      document.getElementById("SUM").disabled = true;
+      document.getElementById("AVE").disabled = true;
+    }
+  }
+  function k(text) {
+    document.getElementById("data").innerHTML = text.value;
+  }
+</script>
